@@ -1,0 +1,6 @@
+FROM node:10-alpine
+
+RUN mkdir -p /server
+WORKDIR /server
+
+CMD npm run debug

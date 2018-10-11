@@ -1,0 +1,30 @@
+version: "3"
+services:
+  bot:
+    networks:
+      - redis-net
+    build:
+      context: ./
+      dockerfile: Dockerfile-dev
+    depends_on:
+      - "redis"
+    environment:
+      REDIS_HOST: "redis"
+      FILE_STORE_PATH: "/server/volumes/bot"
+    volumes:
+      - ./:/server
+    ports:
+      - 9222:9222
+
+  redis:
+    image: redislabs/redisearch:latest
+    hostname: redis
+    networks:
+      - redis-net
+    volumes:
+      - ./volumes/redis:/data
+    ports:
+      - 6379
+
+networks:
+  ? redis-net
