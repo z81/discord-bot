@@ -11,8 +11,6 @@ services:
     environment:
       REDIS_HOST: "redis"
       FILE_STORE_PATH: "/server/volumes/bot"
-    volumes:
-      - ./:/server
     ports:
       - 9222:9222
     restart: always
