@@ -58,6 +58,4 @@ export class RedisStore extends IoRedis {
   private fieldsToArray(fields: string[][]) {
     return fields.reduce((acc: any, cur) => [...acc, ...cur], []);
   }
-
-  multiAsync() {}
 }

@@ -15,16 +15,28 @@ services:
       - ./:/server
     ports:
       - 9222:9222
+    restart: always
 
   redis:
     image: redislabs/redisearch:latest
     hostname: redis
+    command:
+      [
+        "redis-server",
+        "--loadmodule",
+        "/usr/lib/redis/modules/redisearch.so",
+        "--aof-use-rdb-preamble",
+        "yes",
+        "--appendonly",
+        "yes",
+      ]
     networks:
       - redis-net
     volumes:
       - ./volumes/redis:/data
     ports:
       - 6379
+    restart: always
 
 networks:
   ? redis-net

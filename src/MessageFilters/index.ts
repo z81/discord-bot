@@ -40,12 +40,8 @@ export const hasAttachments = () =>
 export const noAttachments = () =>
   messageFilter((msg: IMessage) => msg.attachments.length === 0);
 
-// export const hasPermission = (permissionName: string) =>
-//   messageFilter((msg: IMessage, { permissions }: ICommand) => {
-//     if (!permissions) return false;
-
-//     return permissions.has(permissionName, msg.author);
-//   });
+export const isServerAdministrator = () =>
+  messageFilter((msg: IMessage) => msg.author.isAdmin);
 
 let lastMessageTime = 0;
 export const antiSpamTime = (value: number, antiSpamMessage: string) =>

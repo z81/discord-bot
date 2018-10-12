@@ -18,7 +18,7 @@ export class StickerList implements ICommand {
 
     if (rows) {
       return void msg.reply(
-        `Список стикеров: \`\`\`${rows.map(r => r.fields["name"]).join(", ")}\`\`\``
+        `Список стикеров: \`\`\`${rows.map(r => r.fields["name"]).join(", ")} \`\`\``
       );
     }
 
