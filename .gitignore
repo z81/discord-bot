@@ -3,5 +3,8 @@ node_modules
 dist/*
 !/**/.gitkeep
 volumes/bot/**/*.png
+volumes/bot/**/*.gif
+volumes/bot/**/*.webp
+volumes/bot/**/*.bmp
 volumes/redis/*
 .vscode

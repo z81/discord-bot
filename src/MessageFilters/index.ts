@@ -21,18 +21,51 @@ export const getMessageFilterDecorators = (target: ICommand) =>
   decoratorInstances.get(target);
 
 export const everyTestSuccess = (target: ICommand, message: IMessage) => {
-  const instances = decoratorInstances.get(target.constructor.name);
+  const filters = decoratorInstances.get(target.constructor.name);
 
-  if (!instances || message.author.isBot) return false;
+  if (!filters || message.author.isBot)
+    return {
+      result: false,
+      vars: {}
+    };
 
-  return instances.every((clb: Function) => clb(message, target));
+  let variables = {};
+
+  return {
+    result: filters.every((clb: Function) => {
+      const result: [boolean, object] | boolean = clb(message, target);
+
+      if (result instanceof Array) {
+        variables = { ...variables, ...result[1] };
+
+        return result[0];
+      }
+
+      return result;
+    }),
+    vars: variables
+  };
 };
 
 export const startWith = (text: string) =>
   messageFilter((msg: IMessage) => msg.content.startsWith(text));
 
-export const regEx = (regexp: RegExp) =>
-  messageFilter((msg: IMessage) => !!msg.content.match(regexp));
+export const regEx = (regexp: RegExp, variables: string[] = []) =>
+  messageFilter((msg: IMessage) => {
+    const result = regexp.exec(msg.content);
+
+    if (!!result) {
+      let vars = {};
+
+      variables.forEach((name, i) => {
+        vars = { ...vars, [name]: result[i + 1] };
+      });
+
+      return [!!result, vars];
+    }
+
+    return !!result;
+  });
 
 export const hasAttachments = () =>
   messageFilter((msg: IMessage) => msg.attachments.length > 0);

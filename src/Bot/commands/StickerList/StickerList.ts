@@ -17,11 +17,15 @@ export class StickerList implements ICommand {
     const { rows } = await this.StickerAdd.findSticker("*");
 
     if (rows) {
-      return void msg.reply(
-        `Список стикеров: \`\`\`${rows.map(r => r.fields["name"]).join(", ")} \`\`\``
-      );
-    }
+      const stickerList = rows.map(r => r.fields["name"]).join(", ");
 
-    msg.reply(`Список стикеров пуст!`);
+      if (stickerList) {
+        msg.reply(`Список стикеров: \`\`\`${stickerList} \`\`\``);
+      } else {
+        msg.reply(`Список стикеров пуст!`);
+      }
+    }
   }
+
+  info = "Что бы посмотреть **список стикеров** напишите `стикер лист`";
 }

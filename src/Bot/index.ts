@@ -10,7 +10,7 @@ import { commandContainers, commandNames } from "./commands";
 import { Permissions } from "../Permissions/Permissions";
 dotenv.config();
 
-const container = createContainer();
+export const container = createContainer();
 const token = process.env.TOKEN;
 
 container.register({
@@ -40,18 +40,25 @@ export class Bot {
       .pipe(
         flatMap(msg =>
           cmd$.pipe(
-            filter(cmd => everyTestSuccess(cmd, msg)),
-            filter(cmd => cmd.test(msg)),
-            take(1),
-            tap(cmd => console.log(`Run ${cmd.constructor.name}`, msg.content)),
             flatMap(cmd =>
+              of(everyTestSuccess(cmd, msg)).pipe(
+                filter(({ result, vars }) => result),
+                map(({ vars }) => ({ cmd, vars }))
+              )
+            ),
+            filter(({ cmd, vars }) => cmd.test(msg, vars)),
+            take(1),
+            tap(({ cmd, vars }) =>
+              console.log(`Run ${cmd.constructor.name}`, msg.content)
+            ),
+            flatMap(({ cmd, vars }) =>
               forkJoin(
                 permissions.isAllow(cmd, msg.server.id, msg.author.id, msg.author.roles)
               ).pipe(
                 flatMap(d => d),
                 tap(isAllow => {
                   if (isAllow || msg.author.isAdmin) {
-                    cmd.exec(msg);
+                    cmd.exec(msg, vars);
                   } else {
                     msg.reply("Недостаточно прав!");
                   }

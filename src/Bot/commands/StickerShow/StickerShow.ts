@@ -29,4 +29,6 @@ export class StickerShow implements ICommand {
       msg.send(`${msg.author}, ${document}`, attach);
     }
   }
+
+  info = "Для **вывода стикера** на экран напишете `стикер название_стикера`";
 }

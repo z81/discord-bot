@@ -15,7 +15,6 @@ services:
       - ./:/server
     ports:
       - 9222:9222
-    restart: always
 
   redis:
     image: redislabs/redisearch:latest

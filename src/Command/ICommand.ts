@@ -2,9 +2,11 @@ import { IMessage } from "../Client/IMessage";
 import { Permissions } from "../Permissions/Permissions";
 
 export interface ICommand {
-  test(msg: IMessage): boolean;
+  info: string;
 
-  exec(msg: IMessage): void;
+  test(msg: IMessage, vars: object): boolean;
+
+  exec(msg: IMessage, vars: object): void;
 
   // permissions?: Permissions;
 }

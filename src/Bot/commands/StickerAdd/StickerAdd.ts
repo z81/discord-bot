@@ -29,15 +29,19 @@ export class StickerAdd implements ICommand {
     } catch (e) {}
   }
 
-  @regEx(/^стикер .*$/gim)
+  @regEx(/^стикер (.*)$/gim, ["name"])
   @hasAttachments()
   test = (msg: IMessage) => {
     return !msg.content.includes("лист");
   };
 
-  async exec(msg: IMessage) {
+  async exec(msg: IMessage, { name }: { name: string }) {
     const { url, filename, width } = msg.attachments[0];
-    const stickerName = this.getStickerName(msg.content);
+    const stickerName = this.escapeStickerName(name);
+
+    if (stickerName === "") {
+      return void msg.reply("Невалидное название стикера!");
+    }
 
     if (!width) {
       return void msg.reply("Это не изображение!");
@@ -62,8 +66,8 @@ export class StickerAdd implements ICommand {
     }
   }
 
-  private getStickerName(msg: string) {
-    return msg.substr(7).trim();
+  private escapeStickerName(msg: string) {
+    return msg.replace(/\<@\d+\>/gim, "").trim();
   }
 
   public findSticker = async (stickerName: string) => {
@@ -114,4 +118,7 @@ export class StickerAdd implements ICommand {
       score: "1.0",
       fields: [["name", stickerName], ["path", outPath], ["author", author]]
     });
+
+  info =
+    "Для **добавления стикера** прикрепите к сообщению изображение или анимацию и напишиите `стикер название_стикера`";
 }
