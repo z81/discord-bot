@@ -14,6 +14,8 @@ services:
     ports:
       - 9222:9222
     restart: always
+    volumes:
+      - ./volumes/bot:/server/volumes/bot
 
   redis:
     image: redislabs/redisearch:latest

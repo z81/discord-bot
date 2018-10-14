@@ -22,26 +22,23 @@ export class Permissions implements ICommand {
     const [_, mode, cmd, role = ""] = args;
 
     if (args.length >= 3) {
-      const isAllow = mode.trim() === "разрешить";
-
       try {
+        const isAllow = mode.trim() === "разрешить";
         await this.permissions.setRoleAccess(cmd, msg.server.id, isAllow ? role : "");
         await msg.reply("Права изменены!");
       } catch (e) {
         console.error(e);
-
         await msg.reply("Произошла ошибка!");
       }
     } else if (args.length === 1) {
-      let text = `Список прав:\n`;
-
       const perms = await this.permissions.getPermissions(msg.server.id, commandNames);
 
-      text += perms
-        .map(([name, role]) => `cmd: **${name}** allow **${role || "all"}**`)
-        .join("\n");
-
-      await msg.reply(text);
+      await msg.reply(
+        `Список прав:\n` +
+          perms
+            .map(([name, role]) => `cmd: **${name}** allow **${role || "all"}**`)
+            .join("\n")
+      );
     } else {
       await msg.reply("Недостаточно параметров!");
     }
