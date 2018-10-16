@@ -3,9 +3,7 @@ services:
   bot:
     networks:
       - redis-net
-    build:
-      context: ./
-      dockerfile: Dockerfile
+    image: zx81/discord-bot
     depends_on:
       - "redis"
     environment:
