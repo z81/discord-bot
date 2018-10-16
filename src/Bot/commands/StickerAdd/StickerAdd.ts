@@ -59,7 +59,9 @@ export class StickerAdd implements ICommand {
       await this.fileStore.saveFromUrl(url, outPath);
       await this.addSticker(stickerName, outPath, msg.author.tag);
 
-      msg.reply(`Стикер ${stickerName} добавлен!`);
+      await msg.reply(`Стикер \`${stickerName}\` добавлен!`);
+
+      await msg.remove();
     } catch (e) {
       console.error(e);
       msg.reply("Произошла неизвестная ошибка!");

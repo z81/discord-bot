@@ -44,6 +44,10 @@ export class Message implements IMessage {
   }
 
   async send(text: string, attachment: IAttachment) {
-    this.msg.channel.send(text, attachment);
+    await this.msg.channel.send(text, attachment);
+  }
+
+  async remove() {
+    await this.msg.delete();
   }
 }

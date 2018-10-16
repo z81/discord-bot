@@ -13,4 +13,6 @@ export interface IMessage {
   reply(text: string): Promise<void>;
 
   send(text: string, attachments?: IAttachment): Promise<void>;
+
+  remove(): Promise<void>;
 }
