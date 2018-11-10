@@ -17,8 +17,7 @@ export const messageFilter = (clb: Function) => (target: any, k: string) => {
   }
 };
 
-export const getMessageFilterDecorators = (target: ICommand) =>
-  decoratorInstances.get(target);
+export const getMessageFilterDecorators = (target: ICommand) => decoratorInstances.get(target);
 
 export const everyTestSuccess = (target: ICommand, message: IMessage) => {
   const filters = decoratorInstances.get(target.constructor.name);
@@ -47,8 +46,7 @@ export const everyTestSuccess = (target: ICommand, message: IMessage) => {
   };
 };
 
-export const startWith = (text: string) =>
-  messageFilter((msg: IMessage) => msg.content.startsWith(text));
+export const startWith = (text: string) => messageFilter((msg: IMessage) => msg.content.startsWith(text));
 
 export const regEx = (regexp: RegExp, variables: string[] = []) =>
   messageFilter((msg: IMessage) => {
@@ -67,14 +65,11 @@ export const regEx = (regexp: RegExp, variables: string[] = []) =>
     return !!result;
   });
 
-export const hasAttachments = () =>
-  messageFilter((msg: IMessage) => msg.attachments.length > 0);
+export const hasAttachments = () => messageFilter((msg: IMessage) => msg.attachments.length > 0);
 
-export const noAttachments = () =>
-  messageFilter((msg: IMessage) => msg.attachments.length === 0);
+export const noAttachments = () => messageFilter((msg: IMessage) => msg.attachments.length === 0);
 
-export const isServerAdministrator = () =>
-  messageFilter((msg: IMessage) => msg.author.isAdmin);
+export const isServerAdministrator = () => messageFilter((msg: IMessage) => msg.author.isAdmin);
 
 let lastMessageTime = 0;
 export const antiSpamTime = (value: number, antiSpamMessage: string) =>

@@ -8,3 +8,4 @@ volumes/bot/**/*.webp
 volumes/bot/**/*.bmp
 volumes/redis/*
 .vscode
+coverage

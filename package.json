@@ -2,6 +2,7 @@
   "name": "bot",
   "version": "0.0.1",
   "scripts": {
+    "test": "jest",
     "postinstall": "tsc -p ./",
     "watch": "tsc -w -p ./",
     "debug": "nodemon --watch ./dist --inspect=0.0.0.0:9222 --nolazy ./dist/index.js",
@@ -9,13 +10,16 @@
   },
   "devDependencies": {
     "@types/dotenv": "^4.0.3",
-    "@types/node": "^6.0.118",
-    "nodemon": "^1.18.4",
     "@types/glob": "^7.1.1",
     "@types/ioredis": "^4.0.3",
+    "@types/jest": "^23.3.9",
     "@types/lodash": "^4.14.116",
+    "@types/node": "^6.0.118",
     "@types/request": "^2.47.1",
-    "@types/uuid": "^3.4.4"
+    "@types/uuid": "^3.4.4",
+    "jest": "^23.6.0",
+    "nodemon": "^1.18.4",
+    "ts-jest": "^23.10.4"
   },
   "main": "./dist/index.js",
   "dependencies": {
@@ -31,5 +35,40 @@
     "rxjs": "^6.3.3",
     "typescript": "^2.3.2",
     "uuid": "^3.3.2"
+  },
+  "jest": {
+    "moduleDirectories": [
+      "node_modules",
+      "src",
+      "tests"
+    ],
+    "mapCoverage": true,
+    "moduleFileExtensions": [
+      "ts",
+      "js"
+    ],
+    "testMatch": [
+      "**/*.(test|spec).ts"
+    ],
+    "globals": {
+      "ts-jest": {
+        "babelConfig": true,
+        "tsConfig": "jest.tsconfig.json"
+      }
+    },
+    "transform": {
+      "^.+\\.ts$": "ts-jest"
+    },
+    "collectCoverage": true,
+    "coverageReporters": [
+      "json",
+      "lcov",
+      "text",
+      "text-summary"
+    ],
+    "roots": [
+      "src",
+      "tests"
+    ]
   }
 }
